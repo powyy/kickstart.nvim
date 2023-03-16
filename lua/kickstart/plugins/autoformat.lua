@@ -48,6 +48,9 @@ return {
         -- You can remove this line if you know what you're doing :)
         if client.name == 'tsserver' then
           return
+          -- elseif client.name == 'gopls' then
+          --   client.server_capabilities.document_formatting = false
+          --   return
         end
 
         -- Create an autocmd that will run *before* we save the buffer.
