@@ -132,8 +132,13 @@ require('lazy').setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     opts = {
-      char = '┊',
+      -- vim.opt.listchars:append 'space:⋅',
+      vim.cmd [[highlight IndentBlanklineIndent guifg=#313244 gui=nocombine]],
+      char = '󱦰',
       show_trailing_blankline_indent = false,
+      char_highlight_list = {
+        'IndentBlanklineIndent',
+      },
     },
   },
 
@@ -188,14 +193,17 @@ require('lazy').setup({
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
+
+-- Set cursor
+-- vim.opt.guicursor = ''
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
 
 -- Enable mouse mode
-vim.o.mouse = 'a'
+-- vim.o.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -236,7 +244,7 @@ vim.opt.backup = false
 -- Save undo history
 vim.o.undofile = true
 
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
@@ -307,7 +315,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'html', 'css',
-    'json', 'javascript', },
+    'scss', 'json', 'javascript' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
@@ -377,7 +385,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
   -- many times.
@@ -434,11 +442,12 @@ local servers = {
   cssls = {},
   gopls = {
     -- goimports = true,
-    -- gofumpt = true,
+    gofumpt = true,
   },
   pyright = {},
+  quick_lint_js = {},
   -- rust_analyzer = {},
-  tsserver = {},
+  -- tsserver = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -483,7 +492,7 @@ luasnip.config.setup {}
 cmp.setup {
   window = {
     completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered()
+    documentation = cmp.config.window.bordered(),
   },
   experimental = { ghost_text = true },
   snippet = {
@@ -499,24 +508,24 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
+    -- ['<Tab>'] = cmp.mapping(function(fallback)
+    --   if cmp.visible() then
+    --     cmp.select_next_item()
+    --   elseif luasnip.expand_or_jumpable() then
+    --     luasnip.expand_or_jump()
+    --   else
+    --     fallback()
+    --   end
+    -- end, { 'i', 's' }),
+    -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+    --   if cmp.visible() then
+    --     cmp.select_prev_item()
+    --   elseif luasnip.jumpable(-1) then
+    --     luasnip.jump(-1)
+    --   else
+    --     fallback()
+    --   end
+    -- end, { 'i', 's' }),
   },
   preselect = cmp.PreselectMode.None,
   sources = {
@@ -533,10 +542,11 @@ cmp.setup {
           return vim_item
         end
       end
-      return require('lspkind').cmp_format({ with_text = true })(entry, vim_item)
-    end
-  }
+      return require('lspkind').cmp_format { with_text = true } (entry, vim_item)
+    end,
+  },
 }
-require("powy")
+
+require 'powy'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
