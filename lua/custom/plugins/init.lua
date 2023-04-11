@@ -3,6 +3,10 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+  {
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate" -- :MasonUpdate updates registry contents
+  },
   { 'catppuccin/nvim', name = 'catppuccin' },
   -- config = function()
   -- end, },
@@ -48,7 +52,7 @@ return {
         q_to_quit = true,
         window_style = 'minimal',
         window_border = 'solid',
-        -- window_title = true
+        window_title = false
       }
     end
   },

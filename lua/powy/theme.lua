@@ -56,3 +56,9 @@ vim.cmd.colorscheme 'catppuccin-mocha'
 vim.api.nvim_set_hl(0, 'LineNr', { fg = '#cba6f7', bold = true })
 -- vim.api.nvim_set_hl(0, 'cusorlinenr', { fg = '#cba6f7', bold = true })
 -- :hi linenr guibg=#000000 guifg=#ffffff
+
+require("mason").setup({
+    ui = {
+        border = "rounded"
+    }
+})

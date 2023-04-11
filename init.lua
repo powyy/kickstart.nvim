@@ -1,5 +1,4 @@
 --[[
-
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -67,10 +66,8 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -89,13 +86,11 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
-
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim',          opts = {} },
   {
@@ -112,7 +107,6 @@ require('lazy').setup({
       },
     },
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -125,42 +119,29 @@ require('lazy').setup({
       },
     },
   },
-
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      -- vim.opt.listchars:append 'space:⋅',
-      vim.cmd [[highlight IndentBlanklineIndent guifg=#313244 gui=nocombine]],
-      char = '󱦰',
-      show_trailing_blankline_indent = false,
-      char_highlight_list = {
-        'IndentBlanklineIndent',
-      },
-    },
-  },
-
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim',         opts = {} },
-
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
-
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
   -- requirements installed.
-  {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    cond = function()
-      return vim.fn.executable 'make' == 1
-    end,
-  },
-
+  -- {
+  --   -- Add indentation guides even on blank lines
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   -- Enable `lukas-reineke/indent-blankline.nvim`
+  --   -- See `:help indent_blankline.txt`
+  --   opts = {
+  --
+  --     -- vim.opt.listchars:append 'space:⋅',
+  --     vim.cmd [[highlight IndentBlanklineIndent guifg=#313244 gui=nocombine]],
+  --     char = '󱦰',
+  --     show_trailing_blankline_indent = false,
+  --     char_highlight_list = {
+  --       'IndentBlanklineIndent',
+  --     },
+  --   },
+  -- },
   {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -171,13 +152,11 @@ require('lazy').setup({
       pcall(require('nvim-treesitter.install').update { with_sync = true })
     end,
   },
-
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
-
   -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
   --    up-to-date with whatever is in the kickstart repo.
@@ -189,19 +168,31 @@ require('lazy').setup({
   'onsails/lspkind.nvim',
   'jose-elias-alvarez/null-ls.nvim',
   { import = 'custom.plugins' },
-}, {})
+}, {
+  ui = {
+    border = "rounded",
+  }
+})
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
-
--- Set cursor
+vim.opt.list = true
+vim.opt.listchars:append "space:⋅"
+vim.opt.listchars:append "tab:» "
+vim.opt.listchars:append "trail:-"
+vim.opt.listchars:append "extends:>"
+vim.opt.listchars:append "precedes:<"
+vim.opt.listchars:append "nbsp:%"
+-- vim.opt.
+--"tab:»" }
+-- vim.opt.listchars:
 -- vim.opt.guicursor = ''
 -- Set highlight on search
 vim.o.hlsearch = true
-
+-- vim.cmd.set.listchars += trail:·)
 -- Make line numbers default
 vim.wo.number = true
-
+-- vim.o.listchars = trail:·
 -- Enable mouse mode
 -- vim.o.mouse = 'a'
 
@@ -227,7 +218,6 @@ vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 250
 vim.o.timeout = true
 vim.o.timeoutlen = 300
-
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
@@ -246,6 +236,7 @@ vim.o.undofile = true
 
 vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
 
+vim.opt.list = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
@@ -314,7 +305,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'html', 'css',
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'html', 'css',
     'scss', 'json', 'javascript' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
@@ -378,10 +369,10 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -527,7 +518,7 @@ cmp.setup {
     --   end
     -- end, { 'i', 's' }),
   },
-  preselect = cmp.PreselectMode.None,
+  preselect = cmp.PreselectMode.First,
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
